@@ -1,9 +1,18 @@
 import { Grid, MenuItem, Select, Typography } from "@material-ui/core"
+import { useState } from "react"
+import { useFirestore } from "react-redux-firebase"
 import { orderStateTypes } from "../../../utils/utils"
+import { useOrderContext } from "../OrderContext/OrderContext"
 
-export default function OrderHeader({ timestamp, id, orderState, setOrderState }) {
-    const changeOrderState = (e) => {
-        setOrderState(e.target.value)
+export default function OrderHeader({ orderID, state, timestamp }) {
+    const orderContext = useOrderContext()
+    const firestore = useFirestore()
+    const [isUpdating, setIsUpdating] = useState(false)
+
+    const changeOrderState = async (e) => {
+        setIsUpdating(true)
+        await firestore.collection('orders').doc(orderContext.orderID).update({ state: e.target.value })
+        setIsUpdating(false)
     }
 
     const orderDate = () => {
@@ -22,12 +31,10 @@ export default function OrderHeader({ timestamp, id, orderState, setOrderState }
             </Grid>
             <Grid item>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={orderState}
+                    value={state}
                     onChange={changeOrderState}
-                    // style={{ paddingRight: 8, paddingLeft: 8 }}
                     variant='outlined'
+                    disabled={isUpdating}
                 >
                     {orderStateTypes.map((type) => {
                         return <MenuItem value={type.state} key={type.state}>{type.name}</MenuItem>
@@ -36,7 +43,7 @@ export default function OrderHeader({ timestamp, id, orderState, setOrderState }
             </Grid>
             <Grid item>
                 <Typography>
-                    ID comandă: {id}
+                    ID comandă: {orderID}
                 </Typography>
             </Grid>
         </Grid>

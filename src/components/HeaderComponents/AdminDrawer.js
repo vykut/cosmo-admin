@@ -32,10 +32,10 @@ export default function AdminDrawer({ isOpen, setIsOpen }) {
                 <Toolbar />
                 <List>
                     {pages.map((item, index) => {
-                        return <ListItem button onClick={handleClick(item.path)} key={item.name}>
+                        return <ListItem button onClick={handleClick(item.mainPath)} key={item.title}>
                             <ListItemText color='primary'>
                                 {/* <Box fontWeight='fontWeightMedium'> */}
-                                {item.name}
+                                {item.title}
                                 {/* </Box> */}
                             </ListItemText>
                         </ListItem>

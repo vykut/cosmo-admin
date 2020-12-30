@@ -8,17 +8,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function OrderCustomerDetails({ order }) {
+export default function OrderCustomerDetails({ user, userID, address, addressID }) {
     const classes = useStyles()
 
     return (
         <>
             <Grid container item justify='space-between' className={classes.paper}>
                 <Grid item xs>
-                    {order.user && <OrderUserDetails user={order.user} />}
+                    {user && <OrderUserDetails user={user} id={userID} />}
                 </Grid>
                 <Grid item xs>
-                    {order.address && <OrderAddressDetails address={order.address} />}
+                    {address && <OrderAddressDetails address={address} id={addressID} />}
                 </Grid>
             </Grid>
         </>

@@ -8,6 +8,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firestoreConnect, isEmpty, isLoaded, populate } from 'react-redux-firebase'
 import DeliveredOrdersTableFooter from './DeliveredOrdersTableFooter'
+import { useOrderContext } from '../OrderContext/OrderContext'
 
 const populates = [
     { child: 'userID', root: 'users', childAlias: 'user' },
@@ -15,37 +16,39 @@ const populates = [
     { child: 'riderID', root: 'users', childAlias: 'rider' },
 ]
 
-export default compose(
-    firestoreConnect((props) => [
-        {
-            collection: 'orders',
-            where: [['state', '==', props.tab]],
-            orderBy: [['createdAt', 'desc']]
-        },
-        { collection: 'users' },
-        { collection: 'addresses' }
-    ]),
-    connect(({ firestore }, props) => ({
-        orders: populate(firestore, 'orders', populates),
-    }))
-)(OrdersTable)
+// export default compose(
+//     firestoreConnect((props) => [
+//         {
+//             collection: 'orders',
+//             where: [['state', '==', props.tab]],
+//             orderBy: [['createdAt', 'desc']]
+//         },
+//         { collection: 'users' },
+//         { collection: 'addresses' }
+//     ]),
+//     connect(({ firestore }, props) => ({
+//         orders: populate(firestore, 'orders', populates),
+//     }))
+// )(OrdersTable)
 
 // export default function OrdersTable({ tab }) {
-function OrdersTable({ tab, orders }) {
+export default function OrdersTable() {
+    const orderContext = useOrderContext()
+
     return (
         <>
             <TableContainer>
                 <Table>
-                    <OrdersTableHead showRider={tab === 'pending' ? false : true} />
+                    <OrdersTableHead showRider={orderContext.orderTab === 'pending' ? false : true} />
                     <TableBody>
-                        {!isEmpty(orders) && Object.entries(orders).map((order) => {
+                        {!isEmpty(orderContext.orders) && Object.entries(orderContext.orders).map((order) => {
                             return <OrdersTableRow order={order[1]} id={order[0]} key={order[0]} />
                         })}
                     </TableBody>
-                    {tab === 'delivered' && !isEmpty(orders) && <DeliveredOrdersTableFooter totalPrice={Object.entries(orders).reduce((acc, curr) => acc + curr[1].totalPrice, 0)} />}
+                    {orderContext.orderTab === 'delivered' && !isEmpty(orderContext.orders) && <DeliveredOrdersTableFooter />}
                 </Table>
             </TableContainer>
-            {!isLoaded(orders) && <LinearProgress />}
+            {!isLoaded(orderContext.orders) && <LinearProgress />}
         </>
     )
 }

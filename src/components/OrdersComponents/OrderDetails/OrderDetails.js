@@ -11,6 +11,7 @@ import { firestoreConnect, isEmpty, populate } from 'react-redux-firebase'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { firebaseFunctions } from '../../..'
+import { useOrderContext } from '../OrderContext/OrderContext'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,44 +29,36 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const populates = [
-    { child: 'userID', root: 'users', childAlias: 'user' },
-    { child: 'addressID', root: 'addresses', childAlias: 'address' },
-    { child: 'riderID', root: 'users', childAlias: 'rider' },
-]
+// const populates = [
+//     { child: 'userID', root: 'users', childAlias: 'user' },
+//     { child: 'addressID', root: 'addresses', childAlias: 'address' },
+//     { child: 'riderID', root: 'users', childAlias: 'rider' },
+// ]
 
-const order = 'order'
+// const order = 'order'
 
-export const OrderDetailsWithRouter = withRouter(compose(
-    firestoreConnect((props) => {
-        return [
-            {
-                collection: 'orders',
-                doc: props.match.params.orderID,
-                storeAs: 'order',
-            },
-            { collection: 'users' },
-            { collection: 'addresses' }
-        ]
-    }),
-    connect(({ firestore }, props) => ({
-        order: populate(firestore, order, populates),
-    }))
-)(OrderDetails))
+// export const OrderDetailsWithRouter = withRouter(compose(
+//     firestoreConnect((props) => {
+//         return [
+//             {
+//                 collection: 'orders',
+//                 doc: props.match.params.orderID,
+//                 storeAs: 'order',
+//             },
+//             { collection: 'users' },
+//             { collection: 'addresses' }
+//         ]
+//     }),
+//     connect(({ firestore }, props) => ({
+//         order: populate(firestore, order, populates),
+//     }))
+// )(OrderDetails))
 
 
-function OrderDetails({ order }) {
+export default function OrderDetails(props) {
     const classes = useStyles()
     const { orderID } = useParams()
-    const [orderState, setOrderState] = useState('')
-
-    useEffect(() => {
-        if (!isEmpty(order)) {
-            setOrderState(order.state)
-        }
-    }, [order])
-
-
+    const orderContext = useOrderContext()
 
     function OrderActions({ orderID, state }) {
         const classes = useStyles()
@@ -141,13 +134,13 @@ function OrderDetails({ order }) {
     return (
         <>
             <Grid container direction='column' spacing={4}>
-                {!isEmpty(order) && <OrderHeader timestamp={order.createdAt} setOrderState={setOrderState} orderState={orderState} id={orderID} />}
-                {!isEmpty(order) && <OrderCustomerDetails order={order} />}
+                {!isEmpty(orderContext.order) && <OrderHeader orderID={orderID} timestamp={orderContext.order.createdAt} state={orderContext.order.state} />}
+                {!isEmpty(orderContext.order) && <OrderCustomerDetails user={orderContext.order.user} userID={orderContext.order.userID} address={orderContext.order.address} addressID={orderContext.order.addressID} />}
                 {<OrderProducts orderID={orderID} />}
-                {!isEmpty(order) && <OrderNotes order={order} />}
-                {!isEmpty(order) && <OrderTotal totalPrice={order.totalPrice} />}
+                {!isEmpty(orderContext.order) && <OrderNotes notes={orderContext.order.notes} />}
+                {!isEmpty(orderContext.order) && <OrderTotal totalPrice={orderContext.order.totalPrice} />}
                 {/* <OrderActions orderID={orderID} state={order.state} /> */}
-                {isEmpty(order) && <Grid item><LinearProgress /></Grid>}
+                {isEmpty(orderContext.order) && <Grid item><LinearProgress /></Grid>}
             </Grid>
         </>
     )

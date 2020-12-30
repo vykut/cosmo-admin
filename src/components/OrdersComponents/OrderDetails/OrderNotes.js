@@ -1,9 +1,22 @@
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Grid, TextField, Typography } from "@material-ui/core";
+import { useState } from "react";
+import { isLoaded, useFirestore } from "react-redux-firebase";
+import { useParams } from "react-router-dom";
 
-export default function OrderNotes({ order }) {
+export default function OrderNotes({ notes }) {
+    const [notesData, setNotesData] = useState(notes)
+    const [isLoading, setIsLoading] = useState(false)
+    const { orderID } = useParams()
+    const firestore = useFirestore()
+
+    const updateUserData = async (e) => {
+        setIsLoading(true)
+        await firestore.collection('orders').doc(orderID).update({ notes: notesData })
+        setIsLoading(false)
+    }
     return (
         <>
-            {order.notes && <Grid container item direction='column'>
+            <Grid container item direction='column' spacing={2}>
                 <Grid item >
                     <Typography component='div'>
                         <Box fontWeight='fontWeightBold'>
@@ -12,11 +25,26 @@ export default function OrderNotes({ order }) {
                     </Typography>
                 </Grid>
                 <Grid item >
-                    <Typography>
-                        {order.notes}
-                    </Typography>
+                    <TextField
+                        multiline
+                        rows={4}
+                        value={notesData}
+                        onChange={(e) => setNotesData(e.target.value)}
+                        disabled={isLoading}
+                        variant='outlined'
+                    />
                 </Grid>
-            </Grid>}
+                <Grid item >
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={updateUserData}
+                        disabled={isLoading}
+                    >
+                        Actualizează
+                    </Button>
+                </Grid>
+            </Grid>
         </>
     )
 }

@@ -65,7 +65,7 @@ export default function Header() {
         <>
             <AppBar position="sticky" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-                    {!isEmpty(auth) && <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer}>
+                    {!isEmpty(auth) && <IconButton edge="start" className={classes.menuButton} color="secondary" aria-label="menu" onClick={toggleDrawer}>
                         <MenuIcon />
                     </IconButton>}
                     <div style={{ flexGrow: 1 }} />
@@ -73,7 +73,7 @@ export default function Header() {
                         <img src={logo} alt='logo' className={classes.logo} />
                     </Link>
                     <div style={{ flexGrow: 1 }} />
-                    {!isEmpty(auth) && <Button color='inherit' onClick={logout}>Deconectare</Button>}
+                    {!isEmpty(auth) && <Button color='secondary' onClick={logout}>Deconectare</Button>}
                 </Toolbar>
             </AppBar>
             <AdminDrawer isOpen={isOpen} setIsOpen={setIsOpen} />

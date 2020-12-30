@@ -1,7 +1,9 @@
 import { TableCell, TableHead, TableRow } from '@material-ui/core'
 import React from 'react'
+import { useOrderContext } from '../OrderContext/OrderContext'
 
-export default function DeliveredOrdersTableFooter({ totalPrice }) {
+export default function DeliveredOrdersTableFooter() {
+    const ordersContext = useOrderContext()
     return (
         <TableHead>
             <TableRow>
@@ -10,7 +12,7 @@ export default function DeliveredOrdersTableFooter({ totalPrice }) {
                     Total
                     </TableCell>
                 <TableCell align='right'>
-                    RON {totalPrice.toFixed(2)}
+                    RON {ordersContext.revenueByOrderState}
                 </TableCell>
             </TableRow>
         </TableHead>

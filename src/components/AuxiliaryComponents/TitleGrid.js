@@ -7,7 +7,6 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 const useStyles = makeStyles((theme) => ({
     titleGrid: {
         padding: theme.spacing(2),
-        // marginBottom: theme.spacing(2),
     },
 }))
 
@@ -18,13 +17,13 @@ export default function TitleGrid({ title, showBack = false }) {
     return (
         <Grid container item direction='column'>
             <Grid container item justify='space-between' alignItems='center' className={classes.titleGrid}>
-                {showBack && <Grid item>
+                {showBack && <Grid item >
                     <IconButton className={classes.backButton} onClick={history.goBack} color='primary'>
                         <ArrowBackIcon />
                     </IconButton>
                 </Grid>}
-                <Grid item>
-                    <Typography variant='h5' color='textPrimary'>
+                <Grid item style={{ height: 48, display: 'flex', alignItems: 'center' }}>
+                    <Typography variant='h5' color='textPrimary' >
                         <Box fontWeight='fontWeightBold'>
                             {title}
                         </Box>
