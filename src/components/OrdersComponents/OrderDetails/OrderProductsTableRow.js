@@ -1,4 +1,4 @@
-import { Button, Checkbox, Grid, IconButton, makeStyles, TableCell, TableRow, Typography } from '@material-ui/core'
+import { Button, Checkbox, Grid, IconButton, Link, makeStyles, TableCell, TableRow, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { isEmpty, useFirebase, useFirestore, useFirestoreConnect } from 'react-redux-firebase'
@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { useParams } from 'react-router-dom'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { Link as RouterLink } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     deleteButton: {
@@ -85,6 +86,12 @@ export default function OrderProductsTableRow({ productInOrder }) {
         )
     }
 
+    const productURL = () => {
+        const productCategories = product.categories
+        const lastCategory = productCategories[productCategories.length - 1]
+        return `/categorii/${lastCategory}/produse/${productInOrder[0]}/detalii`
+    }
+
     return (
         <TableRow key={productInOrder[0]} hover>
             <TableCell>
@@ -98,7 +105,9 @@ export default function OrderProductsTableRow({ productInOrder }) {
                 </IconButton>
             </TableCell>
             <TableCell>
-                {isEmpty(product) ? productInOrder[0] : product.name}
+                {isEmpty(product) ? productInOrder[0] : <Link component={RouterLink} to={productURL}>
+                    {product.name}
+                </Link>}
             </TableCell>
             <TableCell align='right'>
                 RON {isEmpty(product) ? productInOrder[1].price.toFixed(2) : product.price.toFixed(2)}

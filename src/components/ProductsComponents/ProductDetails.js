@@ -78,7 +78,6 @@ export default function ProductDetails() {
     }
 
     const handleInputImage = (e) => {
-        console.log(e)
         if (e.target.files[0].size > 1024 * 1024 * 3) {
             enqueueSnackbar('Dimensiunea fișierului este prea mare. Aceasta trebuie să fie mai mica de 3MB. Mai taie din ele dă-le drecu', { variant: 'error' })
             e.target.value = product.image
@@ -150,7 +149,6 @@ export default function ProductDetails() {
                                     label='Preț RON'
                                     variant='outlined'
                                     onChange={(e) => {
-                                        console.log(e.target.value)
                                         if (isNaN(e.target.value)) {
                                             enqueueSnackbar('Prețul este incorect', { variant: 'error' })
                                             return

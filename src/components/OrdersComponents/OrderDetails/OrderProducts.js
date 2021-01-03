@@ -42,7 +42,6 @@ export default function OrderProducts() {
             }, { merge: true })
     }
 
-    console.log(orderContext.productsInOrder)
     return (
         <>
             <Grid container item direction='column' spacing={1}>

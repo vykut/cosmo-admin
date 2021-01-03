@@ -25,8 +25,6 @@ function ProductBox({ product, productID }) {
     const [isLoading, setIsLoading] = useState(false)
     const firestore = useFirestore()
     const history = useHistory()
-    const { categoryID } = useParams()
-    const productContext = useProductContext()
 
     const toggleProductEnabled = async () => {
         setIsLoading(true)
@@ -45,7 +43,7 @@ function ProductBox({ product, productID }) {
     }
 
     const goToProduct = () => {
-        const productCategories = productContext.products[productID].categories
+        const productCategories = product.categories
         const lastCategory = productCategories[productCategories.length - 1]
         history.push(`/categorii/${lastCategory}/produse/${productID}/detalii`)
     }
@@ -72,7 +70,7 @@ function ProductBox({ product, productID }) {
                 <FormControlLabel
                     control={
                         <Switch
-                            checked={product.enabled}
+                            checked={product.enabled === undefined ? true : product.enabled}
                             onChange={toggleProductEnabled}
                             color='primary'
                         />
@@ -84,7 +82,7 @@ function ProductBox({ product, productID }) {
                 <FormControlLabel
                     control={
                         <Switch
-                            checked={product.stock}
+                            checked={product.stock === undefined ? true : product.stock}
                             onChange={toggleProductStock}
                             color='primary'
                         />

@@ -15,6 +15,7 @@ import ProductDetails from "../components/ProductsComponents/ProductDetails";
 import Products from "../components/ProductsComponents/Products";
 import ProductsList from "../components/ProductsComponents/ProductsList";
 import { UserProvider } from "../components/UsersComponents/UserContext/UserContext";
+import UserDetails from "../components/UsersComponents/UserDetails";
 import Users from "../components/UsersComponents/Users";
 
 export const capitalize = (s) => {
@@ -129,6 +130,13 @@ export const pages = [
                 name: 'Utilizatori',
                 path: '/utilizatori/',
                 component: Users,
+            },
+            {
+                name: 'Detalii utilizator',
+                path: '/utilizatori/:userID/detalii/',
+                component: UserDetails,
+                showBack: true,
+
             }
         ]
     },

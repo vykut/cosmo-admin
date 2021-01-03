@@ -93,15 +93,12 @@ export function ProductProvider({ children }) {
             productsToBeReturned = Object.entries(productsToBeReturned).filter((product) => {
                 return product[1].name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes(nameFilter) || product[0].includes(nameFilter)
             })
-            console.log(productsToBeReturned, 'before')
-            console.log(filter)
             productsToBeReturned.sort((a, b) => {
                 if (filter.ascending) {
                     return a[1][sortOption] < b[1][sortOption] ? -1 : 1
                 }
                 return a[1][sortOption] > b[1][sortOption] ? -1 : 1
             })
-            console.log(productsToBeReturned, 'after')
             return productsToBeReturned
         }
     }
