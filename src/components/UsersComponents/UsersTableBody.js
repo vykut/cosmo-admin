@@ -15,7 +15,7 @@ export default function UsersTableBody() {
         <>
             <TableBody>
                 {Object.entries(userContext.users).map((user => {
-                    return <TableRow key={user[0]} onClick={() => history.push(`/utilizatori/${user[0]}/detalii/`)}>
+                    return <TableRow key={user[0]} onClick={() => history.push(`/utilizatori/${user[0]}/detalii/`)} hover>
                         <TableCell >
                             {user[0]}
                         </TableCell>

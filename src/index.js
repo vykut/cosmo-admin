@@ -61,7 +61,7 @@ export var cosmoTheme = createMuiTheme({
       contrastText: '#fff'
     },
     info: {
-      main: '#894475',
+      main: '#212121',
       contrastText: '#fff'
     },
     succes: {
@@ -69,21 +69,6 @@ export var cosmoTheme = createMuiTheme({
     },
   },
 })
-
-const styles = {
-  success: {
-    backgroundColor: '#23adae',
-  },
-  error: {
-    backgroundColor: '#de512b',
-  },
-  info: {
-    backgroundColor: '#894475',
-  },
-  warning: {
-    backgroundColor: '#f4c132',
-  },
-}
 
 cosmoTheme = responsiveFontSizes(cosmoTheme)
 

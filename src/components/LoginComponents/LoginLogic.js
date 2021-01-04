@@ -1,11 +1,14 @@
 import { Box, Container, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import ResetPassword from './ResetPassword';
 import SignIn from './SignIn';
 // import SignUp from './SignUp';
 import logo from '../../assets/logo-cosmo-market.svg'
 import { actionTypes, websiteAddress } from '../../utils/utils';
+import { useSelector } from 'react-redux';
+import { isLoaded, useFirebase } from 'react-redux-firebase';
+import { useHistory } from 'react-router-dom';
 
 
 export const useStyles = makeStyles((theme) => ({

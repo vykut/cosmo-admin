@@ -1,19 +1,10 @@
 import { Tab, Tabs } from '@material-ui/core'
-import React, { useState } from 'react'
+import React from 'react'
 import { orderStateTypes } from '../../utils/utils'
-import { OrderProvider, useOrderContext } from './OrderContext/OrderContext'
+import { useOrderContext } from './OrderContext/OrderContext'
 import OrdersTable from './OrdersTable/OrdersTable'
 
-
-export default function OrdersWithStore() {
-    return (
-        <OrderProvider>
-            <Orders />
-        </OrderProvider>
-    )
-}
-
-function Orders() {
+export default function Orders() {
     const orderContext = useOrderContext()
 
     const changeTab = (e, newValue) => {

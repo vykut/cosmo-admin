@@ -55,12 +55,7 @@ export default function CategoriesTree() {
     const nodeSelected = (e, value) => {
         if (value === all)
             return history.push('/categorii/toate/produse/')
-        const addProduct = value.split('-')
-        if (addProduct[1]) {
-            return history.push(`/categorii/${categoryID}/produse/adauga-produs/`)
-        } else {
-            return history.push(`/categorii/${addProduct[0]}/produse/`)
-        }
+        return history.push(`/categorii/${value}/produse/`)
     }
 
     const toggleNodes = (e, nodes) => {

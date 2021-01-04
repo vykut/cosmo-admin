@@ -1,6 +1,6 @@
 import { Box, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@material-ui/core";
 
-export default function OrderTotal({ totalPrice }) {
+export default function OrderTotal({ totalPrice, deliveryPrice }) {
     return (
         <>
             <Grid container item direction='column'>
@@ -28,7 +28,7 @@ export default function OrderTotal({ totalPrice }) {
                                         Cost livrare
                                     </TableCell>
                                     <TableCell align='right'>
-                                        RON 10
+                                        RON {deliveryPrice}
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -36,7 +36,7 @@ export default function OrderTotal({ totalPrice }) {
                                         Total
                                     </TableCell>
                                     <TableCell align='right' variant='head'>
-                                        RON {(totalPrice + 10).toFixed(2)}
+                                        RON {(totalPrice + deliveryPrice).toFixed(2)}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>

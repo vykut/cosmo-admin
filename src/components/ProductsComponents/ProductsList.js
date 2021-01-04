@@ -11,10 +11,6 @@ import ProductsPageHeader from './ProductsPageHeader'
 export default function ProductsList() {
     const productContext = useProductContext()
 
-    if (isEmpty(productContext.getProducts())) {
-        return <> </>
-    }
-
     return (
         <Grid container direction='column' spacing={2}>
             <Grid item>
@@ -24,7 +20,7 @@ export default function ProductsList() {
                 <Grid item>
                     <AddProductBox />
                 </Grid>
-                {productContext.getProducts().map((product, index) => {
+                {!isEmpty(productContext.getProducts()) && productContext.getProducts().map((product, index) => {
                     return <Grid item key={product[0]}>
                         <ProductBox product={product[1]} productID={product[0]} />
                     </Grid>

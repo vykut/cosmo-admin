@@ -138,7 +138,7 @@ export default function OrderDetails(props) {
                 {!isEmpty(orderContext.order) && <OrderCustomerDetails user={orderContext.order.user} userID={orderContext.order.userID} address={orderContext.order.address} addressID={orderContext.order.addressID} />}
                 {<OrderProducts orderID={orderID} />}
                 {!isEmpty(orderContext.order) && <OrderNotes notes={orderContext.order.notes} />}
-                {!isEmpty(orderContext.order) && <OrderTotal totalPrice={orderContext.order.totalPrice} />}
+                {!isEmpty(orderContext.order) && <OrderTotal totalPrice={orderContext.order.totalPrice} deliveryPrice={orderContext.order.deliveryPrice || 10} />}
                 {/* <OrderActions orderID={orderID} state={order.state} /> */}
                 {isEmpty(orderContext.order) && <Grid item><LinearProgress /></Grid>}
             </Grid>

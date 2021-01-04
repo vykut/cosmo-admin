@@ -4,7 +4,9 @@ import { CategoryProvider } from "../components/CategoriesComponents/CategoryCon
 import CategoryCreator from "../components/CategoriesComponents/CategoryCreator";
 import CategoryDetails from "../components/CategoriesComponents/CategoryDetails";
 import Dashboard from "../components/DashboardComponents/Dashboard";
+import DashboardProvider from "../components/DashboardComponents/DashboardContext/DashboardContext";
 import Market from "../components/MarketComponents/Market";
+import MarketProvider from "../components/MarketComponents/MarketContext/MarketContext";
 import { OrderProvider } from "../components/OrdersComponents/OrderContext/OrderContext";
 import OrderDetails from "../components/OrdersComponents/OrderDetails/OrderDetails";
 import OrdersWithStore from "../components/OrdersComponents/Orders";
@@ -42,7 +44,7 @@ export const pages = [
         title: 'Dashboard',
         mainPath: '/dashboard/',
         layout: PageContainer,
-        provider: CategoryProvider,
+        provider: DashboardProvider,
         subRoutes: [
             {
                 name: 'Dashboard',
@@ -138,6 +140,19 @@ export const pages = [
                 showBack: true,
 
             }
+        ]
+    },
+    {
+        title: 'Magazin',
+        mainPath: '/magazin/',
+        layout: PageContainer,
+        provider: MarketProvider,
+        subRoutes: [
+            {
+                name: 'Cosmo Market',
+                path: '/magazin/',
+                component: Market,
+            },
         ]
     },
     // {

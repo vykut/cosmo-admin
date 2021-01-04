@@ -5,6 +5,7 @@ import PersonalData from './PersonalData'
 import ProductsList from './ProductsList'
 import UserAddresses from './UserAddresses'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AccordionComponent from '../AuxiliaryComponents/AccordionComponent'
 
 const useStyles = makeStyles((theme) => ({
     accordion: {
@@ -28,47 +29,26 @@ export default function UserDetails() {
     return (
         <Grid container direction='column' spacing={4}>
             <Grid item>
-                <Accordion elevation={0} expanded={expanded === 'userData'} onChange={expand('userData')} className={classes.accordion}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant='h6'>
-                            Date utilizator
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Grid container spacing={2}>
-                            <Grid item sm>
-                                <PersonalData />
-                            </Grid>
-                            <Grid item sm>
-                                <UserAddresses />
-                            </Grid>
+                <AccordionComponent expanded={expanded === 'userData'} onChange={expand('userData')} title='Date utilizator'>
+                    <Grid container spacing={2}>
+                        <Grid item sm>
+                            <PersonalData />
                         </Grid>
-                    </AccordionDetails>
-                </Accordion>
+                        <Grid item sm>
+                            <UserAddresses />
+                        </Grid>
+                    </Grid>
+                </AccordionComponent>
             </Grid>
             <Grid item>
-                <Accordion elevation={0} expanded={expanded === 'userOrders'} onChange={expand('userOrders')} className={classes.accordion}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant='h6'>
-                            Comenzi efectuate
-                    </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <OrdersTable />
-                    </AccordionDetails>
-                </Accordion>
+                <AccordionComponent expanded={expanded === 'userOrders'} onChange={expand('userOrders')} title='Comenzi efectuate'>
+                    <OrdersTable />
+                </AccordionComponent>
             </Grid>
             <Grid item>
-                <Accordion elevation={0} expanded={expanded === 'userFavoriteProducts'} onChange={expand('userFavoriteProducts')} className={classes.accordion}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant='h6'>
-                            Produse favorite
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <ProductsList />
-                    </AccordionDetails>
-                </Accordion>
+                <AccordionComponent expanded={expanded === 'userFavoriteProducts'} onChange={expand('userFavoriteProducts')} title='Produse favorite'>
+                    <ProductsList />
+                </AccordionComponent>
             </Grid>
         </Grid>
     )
