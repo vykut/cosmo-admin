@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, Grid, Switch, TextField, Typography } from '@material-ui/core'
+import { Button, capitalize, FormControlLabel, Grid, Switch, TextField, Typography } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
@@ -125,7 +125,7 @@ export default function ProductDetails() {
                                 value={product.name || ''}
                                 label='Nume'
                                 variant='outlined'
-                                onChange={(e) => setProduct({ ...product, name: e.target.value })}
+                                onChange={(e) => setProduct({ ...product, name: capitalize(e.target.value) })}
                                 fullWidth
                                 disabled={isLoading}
                             />
