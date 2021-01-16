@@ -24,8 +24,6 @@ export function OrderProvider({ children }) {
 
     const ordersByTab = `orders-${orderTab}`
     useFirestoreConnect(() => {
-        // console.log(props)
-        // console.log(orderTab)
         return [
             {
                 collection: 'orders',
@@ -50,7 +48,7 @@ export function OrderProvider({ children }) {
         setFilterOption(filterOption)
     }
 
-    const revenueByOrderState = !isEmpty(orders) && Object.entries(orders).reduce((acc, curr) => acc + curr[1].totalPrice, 0).toFixed(2)
+    const revenueByOrderState = !isEmpty(orders) && Object.entries(orders).filter(x => x[1]).reduce((acc, curr) => acc + curr[1].totalPrice, 0).toFixed(2)
 
     const storeAsOrder = `order-${orderID}`
     useFirestoreConnect(() => {
