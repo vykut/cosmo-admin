@@ -78,7 +78,7 @@ export default function MarketData() {
                                 enqueueSnackbar('Prețul este incorect', { variant: 'error' })
                                 return
                             } else {
-                                setMarketData({ ...marketData, deliveryPrice: e.target.value })
+                                setMarketData({ ...marketData, deliveryPrice: parseFloat(e.target.value) })
                             }
                         }}
                         disabled={isLoading}
