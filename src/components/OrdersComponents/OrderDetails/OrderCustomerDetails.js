@@ -1,4 +1,5 @@
 import { Grid, makeStyles } from "@material-ui/core";
+import MapComponent from "./MapComponent";
 import OrderAddressDetails from "./OrderAddressDetails";
 import OrderUserDetails from "./OrderUserDetails";
 
@@ -20,6 +21,10 @@ export default function OrderCustomerDetails({ user, userID, address, addressID 
                 <Grid item xs>
                     {address && <OrderAddressDetails address={address} id={addressID} />}
                 </Grid>
+
+            </Grid>
+            <Grid item>
+                <MapComponent address={address} />
             </Grid>
         </>
     )

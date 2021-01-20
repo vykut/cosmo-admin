@@ -1,17 +1,16 @@
-import { Box, Button, ButtonGroup, Grid, LinearProgress, makeStyles, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
-import { useParams, withRouter } from 'react-router-dom'
+import { Button, ButtonGroup, Grid, LinearProgress, makeStyles } from '@material-ui/core'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 import OrderHeader from './OrderHeader'
 import OrderNotes from './OrderNotes'
 import OrderProducts from './OrderProducts'
 import OrderCustomerDetails from './OrderCustomerDetails'
 import OrderTotal from './OrderTotal'
-import { firestoreConnect, isEmpty, populate } from 'react-redux-firebase'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { isEmpty } from 'react-redux-firebase'
 import { firebaseFunctions } from '../../..'
 import { useOrderContext } from '../OrderContext/OrderContext'
+import MapComponent from './MapComponent'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,31 +27,6 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }))
-
-// const populates = [
-//     { child: 'userID', root: 'users', childAlias: 'user' },
-//     { child: 'addressID', root: 'addresses', childAlias: 'address' },
-//     { child: 'riderID', root: 'users', childAlias: 'rider' },
-// ]
-
-// const order = 'order'
-
-// export const OrderDetailsWithRouter = withRouter(compose(
-//     firestoreConnect((props) => {
-//         return [
-//             {
-//                 collection: 'orders',
-//                 doc: props.match.params.orderID,
-//                 storeAs: 'order',
-//             },
-//             { collection: 'users' },
-//             { collection: 'addresses' }
-//         ]
-//     }),
-//     connect(({ firestore }, props) => ({
-//         order: populate(firestore, order, populates),
-//     }))
-// )(OrderDetails))
 
 
 export default function OrderDetails(props) {
