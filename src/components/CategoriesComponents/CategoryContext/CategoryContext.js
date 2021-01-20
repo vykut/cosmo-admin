@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { isEmpty, isLoaded, populate, useFirestoreConnect } from 'react-redux-firebase';
-import { orderStateTypes } from '../../../utils/utils';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 

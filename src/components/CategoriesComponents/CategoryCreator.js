@@ -1,4 +1,5 @@
 import { Box, Button, Grid, TextField, Typography } from '@material-ui/core'
+import { useSnackbar } from 'notistack'
 import React, { useState } from 'react'
 import { isEmpty, useFirebase, useFirestore } from 'react-redux-firebase'
 import { useHistory, useParams } from 'react-router-dom'
@@ -13,6 +14,7 @@ export default function CategoryCreator() {
     const history = useHistory()
     const [categoryName, setCategoryName] = useState('')
     const [isLoading, setIsLoading] = useState('')
+    const { enqueueSnackbar } = useSnackbar()
 
     const addCategory = async () => {
         setIsLoading(true)
@@ -33,16 +35,36 @@ export default function CategoryCreator() {
         history.push(`/categorii/${newDocRef.id}/detalii/`)
     }
 
+    const addMainCategory = async () => {
+        try {
+            setIsLoading(true)
+            const newDocRef = firestore.collection('categories').doc()
+            await newDocRef.set({
+                childrenCategories: [],
+                enabled: true,
+                name: categoryName,
+                parentCategories: [],
+                mainCategory: true,
+            })
+            setIsLoading(false)
+            history.push(`/categorii/${newDocRef.id}/detalii/`)
+        } catch (err) {
+            console.log(err)
+            enqueueSnackbar('Eroare la crearea categoriei.', { variant: 'error' })
+            setIsLoading(false)
+        }
+    }
+
     return (
         <Grid container direction='column' alignItems='center' spacing={4}>
-            <Grid item>
+            {categoryID && <Grid item>
                 <Typography component='div' variant='h6'>
                     {'Categoria părinte: '}
                     {!isEmpty(categoryContext.categories) && <Box display='inline' fontWeight='fontWeightBold' color='text.primary'>
                         {categoryContext.categories[categoryID].name}
                     </Box>}
                 </Typography>
-            </Grid>
+            </Grid>}
             <Grid item>
                 <TextField
                     label='Denumire'
@@ -58,7 +80,7 @@ export default function CategoryCreator() {
                         variant='contained'
                         color='primary'
                         disabled={isLoading || !categoryName}
-                        onClick={addCategory}
+                        onClick={categoryID ? addCategory : addMainCategory}
                     >
                         Salvează
                     </Button>

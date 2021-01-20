@@ -9,6 +9,14 @@ import IndeterminateCheckBoxOutlinedIcon from '@material-ui/icons/IndeterminateC
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 
+const categoryTypes = {
+    mainCategory: 'mc',
+    newMainCategory: 'nm',
+    category: 'ct',
+    newCategory: 'nc',
+    allCategories: 'al'
+}
+
 function CloseSquare(props) {
     return (
         <SvgIcon className="close" fontSize="inherit" style={{ width: 14, height: 14 }} {...props}>
@@ -42,39 +50,56 @@ export default function CategoriesTree() {
     const categoryContext = useCategoryContext()
     const history = useHistory()
     const { categoryID } = useParams()
-    const [nodes, setNodes] = useState(['1'])
+    const [nodes, setNodes] = useState([categoryTypes.allCategories])
 
     useEffect(() => {
         if (categoryID && !isEmpty(categoryContext.categories)) {
-            setNodes(['1', ...categoryContext.categories[categoryID].parentCategories, categoryID])
+            const parentCategories = categoryContext.categories[categoryID]?.parentCategories
+            const mainCategory = categoryContext.categories[categoryID].mainCategory
+            setNodes([
+                categoryTypes.allCategories,
+                ...parentCategories
+                    ?.map((cat, i) => i === 0 ? `${categoryTypes.mainCategory}-${cat}` : `${categoryTypes.category}-${cat}`),
+                mainCategory ? `${categoryTypes.mainCategory}-${categoryID}` : `${categoryTypes.category}-${categoryID}`
+            ])
         }
     }, [categoryContext.categories, categoryID])
 
     const nodeSelected = (e, value) => {
-        if (value === '1')
-            return history.push('/categorii/')
+        const category = value.split('-')
 
-        const addCategory = value.split('-')
-        if (addCategory[1]) {
-            history.push(`/categorii/${addCategory[0]}/adauga-subcategorie/`)
-            setNodes([...nodes, value])
-        } else {
-            history.push(`/categorii/${addCategory[0]}/detalii/`)
+        switch (value.substring(0, 2)) {
+            case categoryTypes.allCategories:
+                return history.push('/categorii/')
+            case categoryTypes.newMainCategory:
+                return history.push('/categorii/adauga-categorie-principala')
+            case categoryTypes.mainCategory:
+            case categoryTypes.category:
+                return history.push(`/categorii/${category[1]}/detalii/`)
+            case categoryTypes.newCategory:
+                console.log(value)
+                history.push(`/categorii/${category[1]}/adauga-subcategorie/`)
+                setNodes([...nodes, value])
+                return
+            default:
+                console.log('not supported')
+                return
         }
     }
 
     const toggleNodes = (e, nodes) => {
+        console.log(nodes)
         setNodes(nodes)
     }
 
-    function CategoryTree(categoryID, category) {
+    function CategoryTree(categoryID, category, mainCategory = false) {
         if (category) {
             return (
-                <StyledTreeItem nodeId={categoryID} label={category.name} key={categoryID}>
+                <StyledTreeItem nodeId={`${mainCategory ? categoryTypes.mainCategory : categoryTypes.category}-${categoryID}`} label={category.name} key={categoryID}>
                     {!isEmpty(category.childrenCategories) && category.childrenCategories.map((categoryID) => {
                         return CategoryTree(categoryID, categoryContext.categories[categoryID])
                     })}
-                    <StyledTreeItem nodeId={`${categoryID}-addCategory`} label='Adaugă subcategorie' key={`${categoryID}-addCategory`} endIcon={<AddBoxIcon color='primary' />} />
+                    <StyledTreeItem nodeId={`${categoryTypes.newCategory}-${categoryID}`} label='Adaugă subcategorie' key={`${categoryID}-addCategory`} endIcon={<AddBoxIcon color='primary' />} />
                 </StyledTreeItem>
             )
         }
@@ -90,10 +115,11 @@ export default function CategoriesTree() {
             defaultEndIcon={<CloseSquare />}
             onNodeSelect={nodeSelected}
         >
-            <StyledTreeItem nodeId="1" label="Categorii">
-                {!isEmpty(categoryContext.mainCategories) && !isEmpty(categoryContext.categories) && Object.entries(categoryContext.mainCategories).map((category) => {
-                    return CategoryTree(category[0], categoryContext.categories[category[0]])
+            <StyledTreeItem nodeId={categoryTypes.allCategories} label="Categorii">
+                {!isEmpty(categoryContext.mainCategories) && !isEmpty(categoryContext.categories) && Object.entries(categoryContext.mainCategories).filter(x => x[1]).map((category) => {
+                    return CategoryTree(category[0], categoryContext.categories[category[0]], true)
                 })}
+                <StyledTreeItem nodeId={categoryTypes.newMainCategory} label='Adaugă categorie principală' endIcon={<AddBoxIcon color='primary' />} />
             </StyledTreeItem>
         </TreeView>
     )

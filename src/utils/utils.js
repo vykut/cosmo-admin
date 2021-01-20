@@ -72,6 +72,11 @@ export const pages = [
                 showBack: true,
             },
             {
+                name: 'Adaugă categorie principală',
+                path: '/categorii/adauga-categorie-principala',
+                component: CategoryCreator,
+            },
+            {
                 name: 'Categorii',
                 path: '/categorii/',
                 component: CategoryDetails,
