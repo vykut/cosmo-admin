@@ -90,6 +90,16 @@ export default function MarketData() {
                     <TextField
                         fullWidth
                         variant='outlined'
+                        label='Email magazin'
+                        value={marketData.email || ''}
+                        onChange={(e) => setMarketData({ ...marketData, email: e.target.value })}
+                        disabled={isLoading}
+                    />
+                </Grid>
+                <Grid item>
+                    <TextField
+                        fullWidth
+                        variant='outlined'
                         label='Adresă magazin'
                         value={marketData.address || ''}
                         onChange={(e) => setMarketData({ ...marketData, address: e.target.value })}

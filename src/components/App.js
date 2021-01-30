@@ -5,7 +5,7 @@ import LoginLogic from "./LoginComponents/LoginLogic";
 import { BrowserRouter as Router } from 'react-router-dom';
 import Header from "./HeaderComponents/Header";
 import { pages } from "../utils/utils";
-import Footer from "../../../cosmo-market/src/components/FooterComponents/Footer";
+import Footer from "../components/FooterComponents/Footer";
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
